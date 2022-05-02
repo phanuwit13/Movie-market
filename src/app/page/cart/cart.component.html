@@ -1,0 +1,131 @@
+<div class="container content-detail">
+  <div class="title-cart">
+    <span>Cart</span>
+  </div>
+  <span (click)="clearCart()" class="badge rounded-pill btn-clear">
+    <span>Clear cart</span>
+  </span>
+  <div class="cart-table">
+    <table class="table">
+      <thead>
+        <tr class="row">
+          <th class="col-4 product-title" scope="col">MOVIE NAME</th>
+          <th class="col-2" scope="col">PRICE</th>
+          <th class="col-2" scope="col">QUANTITY</th>
+          <th class="col-2" scope="col">TOTAL</th>
+          <th class="col-2" scope="col"></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of cartProduct">
+        <tr class="row">
+          <th class="col-4">
+            <div class="col-12 cart-brand">
+              <img
+                class="img-brand"
+                src="{{
+                  item.detail.length <= 0
+                    ? 'https://www.amulyamica.com/files/noimage.jpg'
+                    : basePath + item.detail.poster_path
+                }}"
+                alt="..."
+              />
+              <span>{{ item.detail.title }}</span>
+            </div>
+          </th>
+          <td class="col-2 cart-price">฿{{ item.detail.price }}</td>
+          <td class="col-2">{{ item.amount }}</td>
+          <td class="col-2 cart-price">
+            ฿{{ (item.detail.price * item.amount).toFixed(2) }}
+          </td>
+          <td class="col-2">
+            <span class="badge btn-delete" (click)="deleteCart(item.detail.id)"
+              >delete</span
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="nav justify-content-end">
+    <div>
+      <span class="subtotal"> Sum total ( {{ total }} Product): </span>
+      <span
+        *ngIf="priceTotal !== pricePromo"
+        class="fs-5 promo text-decoration-line-through"
+        >฿ {{ priceTotal }}</span
+      >
+      <span class="sumtotle">฿ {{ pricePromo }}</span>
+      <button
+        type="button"
+        [disabled]="cartProduct.length <=0 "
+        class="btn rounded-pill btn-proceed"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+        (click)="pay()"
+      >
+        <span>Proceed to Check out</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+            <img
+              class="img-product card-img-top"
+              src="../../../assets/156602049_1102947156838462_3686395469427954285_n.jpg"
+              alt="..."
+            />
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item container">
+              <div class="row container row-brand">
+                <div class="col-12 name-brand">
+                  <h4>ธนาคาร : กรุงเทพ</h4>
+                  <h4>เลขบัญชี : 5590968102</h4>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item container row-price">
+              <div class="row container row-brand">
+                <div class="col-12 name-brand">
+                  <h4>0:{{ this.test }}</h4>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="clearTime()" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" (click)="clearTime()" data-bs-dismiss="modal" class="btn btn-primary">
+          เสร็จสิ้น
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,210 @@
+<div class="container">
+  <div class="header-content">
+    <div class="col-8 col-sm-7 col-lg-4">
+      <input
+        class="form-control form-control-sm ml-3 w-100"
+        type="text"
+        placeholder="Search"
+        aria-label="Search"
+        #keyMovie
+        (keyup)="shearchMovie(keyMovie.value)"
+        mdbInput
+      />
+    </div>
+    <div class="col-3 col-sm-3 col-lg-1">
+      <button
+        class="btn btn-primary btn-sherch"
+        data-toggle="modal"
+        data-target="#ModalSearch"
+        mat-flat-button
+        color="primary"
+      >
+        ค้นหา
+      </button>
+    </div>
+  </div>
+  <div class="container content">
+    <h5>
+      <span>Product ({{ movie.length }})</span>
+    </h5>
+    <div class="row">
+      <div
+        *ngFor="let item of movie"
+        class="col-12 col-md-6 col-xl-4 col-xxl-3"
+      >
+        <div class="card">
+          <div class="card-header">
+            <img
+              *ngIf="item.poster_path !== null"
+              class="img-product card-img-top"
+              src="{{
+                item.poster_path
+                  ? basePath + item.poster_path
+                  : 'https://www.amulyamica.com/files/noimage.jpg'
+              }}"
+              alt="..."
+            />
+            <img
+              *ngIf="item.poster_path === null"
+              class="img-product card-img-top"
+              src="{{
+                item.poster_path
+                  ? basePath + item.backdrop_path
+                  : 'https://www.amulyamica.com/files/noimage.jpg'
+              }}"
+              alt="..."
+            />
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item container">
+              <div class="row container row-brand">
+                <div class="col-12 name-brand">
+                  <h5><b>Title : </b>{{ item.title }}</h5>
+                  <p></p>
+                  <p class="lh-1"><span><b>Release Date : </b>{{ item.release_date }}</span></p>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item container row-price">
+              <div class="row container row-brand">
+                <div class="col-6 box-btn">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                    (click)="showProduct(item)"
+                  >
+                    Add Product
+                  </button>
+                </div>
+                <div class="col-6">
+                  <span class="title-price">
+                    Reviews ({{ item.vote_count }})</span
+                  >
+                  <!-- <ngb-rating [max]="10" [(rate)]="item.vote_average" [readonly]="true"></ngb-rating> -->
+                  <ngb-rating [(rate)]="item.vote_average">
+                    <ng-template let-fill="fill">
+                      <span class="star" [class.filled]="fill === 100"
+                        >&#9733;</span
+                      >
+                    </ng-template>
+                  </ngb-rating>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+            <img
+              *ngIf="addProduct.backdrop_path !== null"
+              class="img-product card-img-top"
+              src="{{
+                addProduct.length <= 0
+                  ? 'https://www.amulyamica.com/files/noimage.jpg'
+                  : basePath + addProduct.backdrop_path
+              }}"
+              alt="..."
+            />
+            <img
+              *ngIf="addProduct.backdrop_path === null"
+              class="img-product card-img-top"
+              src="{{
+                addProduct.length <= 0
+                  ? 'https://www.amulyamica.com/files/noimage.jpg'
+                  : 'https://www.amulyamica.com/files/noimage.jpg'
+              }}"
+              alt="..."
+            />
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item container">
+              <div class="row container row-brand">
+                <div class="col-12 name-brand">
+                  <h5><b>Title : </b>{{ addProduct.title }}</h5>
+                  <p></p>
+                  <p class="lh-1"><b>Release Date : </b>{{ addProduct.release_date }}</p>
+                  <p class="lh-1">
+                    <b>Original Language : </b
+                    >{{ addProduct.original_language }}
+                  </p>
+                  <p class="lh-1"><b>Popularity : </b>{{ addProduct.popularity }}</p>
+                  <p class="lh-1">{{ addProduct.overview }}</p>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item container row-price">
+              <div class="row container row-brand">
+                <div class="col-6 box-btn">
+                  <input
+                    class="form-control form-control-sm w-100"
+                    type="text"
+                    placeholder="Price"
+                    [(ngModel)]="price"
+                    #keyPrice
+                    mdbInput
+                  />
+                </div>
+                <div class="col-6">
+                  <span class="title-price">
+                    Reviews ({{ addProduct.vote_count }})</span
+                  >
+                  <!-- <ngb-rating [max]="10" [(rate)]="item.vote_average" [readonly]="true"></ngb-rating> -->
+                  <ngb-rating [(rate)]="addProduct.vote_average">
+                    <ng-template let-fill="fill">
+                      <span class="star" [class.filled]="fill === 100"
+                        >&#9733;</span
+                      >
+                    </ng-template>
+                  </ngb-rating>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          [disabled]="price <= 0"
+          (click)="productAddStore(price)"
+          class="btn btn-primary"
+        >
+          Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
